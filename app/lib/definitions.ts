@@ -86,3 +86,15 @@ export type InvoiceForm = {
   amount: number;
   status: 'pending' | 'paid';
 };
+
+export interface CardDataRaw {
+  numberOfInvoices: number | bigint;
+  totalPaidInvoices: number | bigint;
+  totalPendingInvoices: number;
+  numberOfCustomers: number;
+}
+
+export type InvoiceCountResult = bigint;
+export type CustomerCountResult = bigint;
+export type InvoiceStatusResult = { paid: bigint; pending: bigint };
+export type DashboardCardData = [InvoiceCountResult, CustomerCountResult, InvoiceStatusResult];
