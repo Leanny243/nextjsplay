@@ -88,13 +88,14 @@ export type InvoiceForm = {
 };
 
 export interface CardDataRaw {
-  numberOfInvoices: number | bigint;
-  totalPaidInvoices: number | bigint;
+  numberOfInvoices:  number;
+  totalPaidInvoices: number;
   totalPendingInvoices: number;
   numberOfCustomers: number;
 }
 
-export type InvoiceCountResult = bigint;
-export type CustomerCountResult = bigint;
-export type InvoiceStatusResult = { paid: bigint; pending: bigint };
+export type InvoiceCountResult = { count: bigint }[];
+export type CustomerCountResult = { count: bigint }[];
+export type InvoiceStatusResult = [{ paid: bigint; pending: bigint }];
 export type DashboardCardData = [InvoiceCountResult, CustomerCountResult, InvoiceStatusResult];
+

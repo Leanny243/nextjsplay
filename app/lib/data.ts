@@ -1,4 +1,4 @@
-import  prisma from '@/app/lib/prisma';
+import  {getPrismaClient} from '@/app/lib/prisma';
 
 import {
   CustomerField,
@@ -18,7 +18,7 @@ import {
 import { formatCurrency } from './utils';
 import { unstable_noStore as noStore } from 'next/cache';
 
-// const prisma = new PrismaClient();
+const prisma = getPrismaClient();
 
 export async function fetchRevenue() {
   // Add noStore() here to prevent the response from being cached.
@@ -91,6 +91,7 @@ export async function fetchCardData() {
       customerCountPromise,
       invoiceStatusPromise,
     ]);
+    
     const numberOfInvoices = Number(data[0][0]?.count ?? 0);
     const numberOfCustomers = Number(data[1][0]?.count ?? 0);
     const totalPaidInvoices = formatCurrency(data[2][0]?.paid ?? 0);
