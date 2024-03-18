@@ -1,5 +1,4 @@
-// import { sql } from '@vercel/postgres';
-import { PrismaClient } from '@prisma/client';
+import  prisma from '@/app/lib/prisma';
 
 import {
   CustomerField,
@@ -19,7 +18,7 @@ import {
 import { formatCurrency } from './utils';
 import { unstable_noStore as noStore } from 'next/cache';
 
-const prisma = new PrismaClient();
+// const prisma = new PrismaClient();
 
 export async function fetchRevenue() {
   // Add noStore() here to prevent the response from being cached.
