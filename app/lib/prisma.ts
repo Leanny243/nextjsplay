@@ -2,9 +2,7 @@ import { PrismaClient } from '@prisma/client';
 
 let prisma: PrismaClient;
 
-// Check if the environment is production
 if (process.env.NODE_ENV === 'production') {
-  // Set the production database URL
   const dbUrl = process.env.POSTGRES_PRISMA_URL;
   // Create a new PrismaClient instance with the production database URL
   prisma = new PrismaClient({
@@ -15,7 +13,6 @@ if (process.env.NODE_ENV === 'production') {
     },
   });
 } else {
-  // Set the local database URL for development
   const dbUrl = process.env.DATABASE_URL_LOCAL;
   // Create a global PrismaClient instance if it doesn't exist
   if (!global.prisma) {
