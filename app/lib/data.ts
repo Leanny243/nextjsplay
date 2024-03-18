@@ -21,8 +21,7 @@ import { unstable_noStore as noStore } from 'next/cache';
 const prisma = getPrismaClient();
 
 export async function fetchRevenue() {
-  // Add noStore() here to prevent the response from being cached.
-  // This is equivalent to in fetch(..., {cache: 'no-store'}).
+  
   noStore();
   
   try {
