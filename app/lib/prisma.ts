@@ -4,7 +4,6 @@ let prisma: PrismaClient;
 
 if (process.env.NODE_ENV === 'production') {
   const dbUrl = process.env.POSTGRES_PRISMA_URL;
-  // Create a new PrismaClient instance with the production database URL
   prisma = new PrismaClient({
     datasources: {
       db: {
