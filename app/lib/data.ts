@@ -13,6 +13,7 @@ import {
   InvoiceCountResult,
   CustomerCountResult,
   InvoiceStatusResult,
+  FetchedFilteredInvoices
 
 } from './definitions';
 import { formatCurrency } from './utils';
@@ -110,14 +111,11 @@ export async function fetchCardData() {
 
 
 const ITEMS_PER_PAGE = 6;
-export async function fetchFilteredInvoices(
-  query: string,
-  currentPage: number,
-) {
+export async function fetchFilteredInvoices(query: string,currentPage: number,): Promise<InvoicesTable>{
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
 
   try {
-    const invoices = prisma.$queryRaw<InvoicesTable>`
+    return  prisma.$queryRaw<InvoicesTable>`
       SELECT
         invoices.id,
         invoices.amount,
@@ -136,13 +134,9 @@ export async function fetchFilteredInvoices(
         invoices.status ILIKE ${`%${query}%`}
       ORDER BY invoices.date DESC
       LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
-    `;  
-
-    invoices.then((data) => {
-      return data;
-    });
+    `
+    .then((data) => data)
     
-    return invoices;
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch invoices.');

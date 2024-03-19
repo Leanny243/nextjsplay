@@ -45,7 +45,7 @@ export type LatestInvoiceRaw = Omit<LatestInvoice, 'amount'> & {
 };
 
 export type InvoicesTable = {
-  map(arg0: (invoice: { id: import("react").Key | null | undefined; image_url: string | import("next/dist/shared/lib/get-img-props").StaticImport; name: string | number | boolean | import("react").ReactElement<any, string | import("react").JSXElementConstructor<any>> | import("react").ReactPortal | import("react").PromiseLikeOfReactNode | Iterable<import("react").ReactNode> | null | undefined; email: string | number | boolean | import("react").ReactElement<any, string | import("react").JSXElementConstructor<any>> | import("react").ReactPortal | import("react").PromiseLikeOfReactNode | Iterable<import("react").ReactNode> | null | undefined; status: string; amount: number | bigint; date: string; }) => import("react").JSX.Element): import("react").ReactNode;
+  // map(arg0: (invoice: { id: import("react").Key; image_url: string | import("next/dist/shared/lib/get-img-props").StaticImport; name: string | number | boolean | import("react").ReactElement<any, string | import("react").JSXElementConstructor<any>> | import("react").ReactPortal | import("react").PromiseLikeOfReactNode | Iterable<import("react").ReactNode> | null | undefined; email: string | number | boolean | import("react").ReactElement<any, string | import("react").JSXElementConstructor<any>> | import("react").ReactPortal | import("react").PromiseLikeOfReactNode | Iterable<import("react").ReactNode> | null | undefined; status: string; amount: number | bigint; date: string; }) => import("react").JSX.Element): import("react").ReactNode;
   id: string;
   customer_id: string;
   name: string;
@@ -99,4 +99,10 @@ export type InvoiceCountResult = { count: bigint }[];
 export type CustomerCountResult = { count: bigint }[];
 export type InvoiceStatusResult = [{ paid: bigint; pending: bigint }];
 export type DashboardCardData = [InvoiceCountResult, CustomerCountResult, InvoiceStatusResult];
-
+export type FetchedFilteredInvoices = { 
+  id: string;
+  image_url: string;
+  name: string; 
+  email: string;
+  status: string;
+}
