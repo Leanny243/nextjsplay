@@ -115,7 +115,7 @@ export async function fetchFilteredInvoices(query: string,currentPage: number,):
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
 
   try {
-    return  prisma.$queryRaw<InvoicesTable>`
+    return  await prisma.$queryRaw<InvoicesTable>`
       SELECT
         invoices.id,
         invoices.amount,
@@ -142,10 +142,14 @@ export async function fetchFilteredInvoices(query: string,currentPage: number,):
     throw new Error('Failed to fetch invoices.');
   }
 }
-/*
+
+type Count = {
+  count: bigint | number;
+}
 export async function fetchInvoicesPages(query: string) {
   try {
-    const count = prisma.$queryRaw`SELECT COUNT(*)
+
+    const count = await prisma.$queryRaw<Count[]>`SELECT COUNT(*)
     FROM invoices
     JOIN customers ON invoices.customer_id = customers.id
     WHERE
@@ -154,16 +158,18 @@ export async function fetchInvoicesPages(query: string) {
       invoices.amount::text ILIKE ${`%${query}%`} OR
       invoices.date::text ILIKE ${`%${query}%`} OR
       invoices.status ILIKE ${`%${query}%`}
-  `;
-  console.log({count})
+  `
+  .then(data => data)
 
-    const totalPages = Math.ceil(Number(count.rows[0].count) / ITEMS_PER_PAGE);
+    const totalPages = Math.ceil(Number(count[0].count) / ITEMS_PER_PAGE);
     return totalPages;
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch total number of invoices.');
   }
 }
+
+/*
 
 export async function fetchInvoiceById(id: string) {
   try {
