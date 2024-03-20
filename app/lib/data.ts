@@ -169,11 +169,11 @@ export async function fetchInvoicesPages(query: string) {
   }
 }
 
-/*
+
 
 export async function fetchInvoiceById(id: string) {
   try {
-    const data = await sql<InvoiceForm>`
+    const data = prisma.$queryRaw<InvoiceForm>`
       SELECT
         invoices.id,
         invoices.customer_id,
@@ -198,7 +198,7 @@ export async function fetchInvoiceById(id: string) {
 
 export async function fetchCustomers() {
   try {
-    const data = await sql<CustomerField>`
+    const data = prisma.$queryRaw<CustomerField>`
       SELECT
         id,
         name
@@ -206,14 +206,14 @@ export async function fetchCustomers() {
       ORDER BY name ASC
     `;
 
-    const customers = data.rows;
-    return customers;
+
+    return data;
   } catch (err) {
     console.error('Database Error:', err);
     throw new Error('Failed to fetch all customers.');
   }
 }
-
+/*
 export async function fetchFilteredCustomers(query: string) {
   try {
     const data = await sql<CustomersTableType>`
