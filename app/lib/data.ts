@@ -18,6 +18,7 @@ import {
 } from './definitions';
 import { formatCurrency } from './utils';
 import { unstable_noStore as noStore } from 'next/cache';
+import { UUID } from 'crypto';
 
 const prisma = getPrismaClient();
 
@@ -172,40 +173,35 @@ export async function fetchInvoicesPages(query: string) {
 
 
 export async function fetchInvoiceById(id: string) {
-  try {
-    const data = prisma.$queryRaw<InvoiceForm>`
-      SELECT
-        invoices.id,
-        invoices.customer_id,
-        invoices.amount,
-        invoices.status
-      FROM invoices
-      WHERE invoices.id = ${id};
-    `;
-
-    const invoice = data.rows.map((invoice) => ({
-      ...invoice,
+  
+    return await prisma.invoices.findUnique({
+      where: {
+        id,  // Use id directly without casting
+      },
+    })
+    .then((data) => {
+      if (!data) {
+       return null;
+      }
+      return {
+      ...data,
       // Convert amount from cents to dollars
-      amount: invoice.amount / 100,
-    }));
-
-    return invoice[0];
-  } catch (error) {
-    console.error('Database Error:', error);
-    throw new Error('Failed to fetch invoice.');
-  }
+      amount: Number(data?.amount) / 100,
+    }})
+    .catch((error) => {
+      throw Error('Failed to fetch invoice.');
+    });
 }
 
 export async function fetchCustomers() {
   try {
     const data = prisma.$queryRaw<CustomerField>`
-      SELECT
+      SELECT 
         id,
         name
       FROM customers
       ORDER BY name ASC
     `;
-
 
     return data;
   } catch (err) {
