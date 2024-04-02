@@ -40,7 +40,18 @@ export const getPrismaClient = (): PrismaClient => {
 
 */
 
-import { PrismaClient, PrismaClientOptions } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
+
+interface PrismaClientOptions {
+  datasources: {
+    db: {
+      url: string | undefined;
+    };
+  };
+  pool?: {
+    idleTimeoutMillis: number;
+  };
+}
 
 let prisma: PrismaClient;
 
