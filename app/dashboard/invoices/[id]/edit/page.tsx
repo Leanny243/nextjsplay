@@ -7,8 +7,12 @@ import { notFound } from 'next/navigation';
 export default async function Page({ params }: { params: { id: UUID}}) {
   const id = params.id;
   const [invoice, customers] = await Promise.all([fetchInvoiceById(id), fetchCustomers()]);
-  console.log('invoice', invoice);
-  if (!invoice) notFound();
+  if (!invoice || ! Array.isArray(customers)) notFound(); 
+  const coercedInvoice = {
+    ...invoice,
+    status: invoice.status as 'pending' | 'paid',
+  }
+
   return (
     <main>
       <Breadcrumbs
@@ -21,7 +25,7 @@ export default async function Page({ params }: { params: { id: UUID}}) {
           },
         ]}
       />
-      <Form invoice={invoice} customers={customers} />
+      <Form invoice={coercedInvoice} customers={customers} />
     </main>
   );
 }
