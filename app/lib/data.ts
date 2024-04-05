@@ -251,3 +251,14 @@ export async function getUser(email: string) {
   }
 }
 */
+
+export async function getUser(email: string): Promise<User | undefined> {
+  try {
+    const userData = await prisma.$queryRaw<User>`SELECT * FROM users WHERE email=${email}` ;
+    const user = Array.isArray(userData) ? userData[0] : undefined;
+    return user  ;
+  } catch (error) {
+    console.error('Failed to fetch user:', error);
+    throw new Error('Failed to fetch user.');
+  }
+}
